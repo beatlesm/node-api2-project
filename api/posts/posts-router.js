@@ -47,7 +47,30 @@ router.post('/', (req, res) => {
         }   
  });
   
-
+ router.put('/:id', (req, res) => {
+    const changes = req.body;
+    const { title, contents } = req.body
+    if( !title || !title.trim() || !contents || !contents.trim() ) {
+        res.status(400).json({ message: "Please provide title and contents for the post"  });
+    } else {
+  
+        Post.update(req.params.id, changes)
+            .then(postObj => {
+                if (postObj) {
+                    return Post.findById(req.params.id)
+                } else {
+                    res.status(404).json({ message: "The post with the specified ID does not exist" });
+                }
+            })
+            .then (updatedPost => {
+                res.status(200).json(updatedPost);
+            })
+            .catch(() => {         
+                res.json({ message: "The post information could not be modified" });
+            });
+  
+    }
+ });
  
  
 
