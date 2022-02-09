@@ -3,7 +3,7 @@ const router = require("express").Router()
 
 const Post = require('./posts-model')
 
-router.get('/', (req, res, next) => {    
+router.get('/', (req, res) => {    
     Post.find()
         .then(posts => {
             res.status(200).json(posts)
@@ -45,9 +45,9 @@ router.post('/', (req, res) => {
             });
   
         }   
- });
+});
   
- router.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     const changes = req.body;
     const { title, contents } = req.body
     if( !title || !title.trim() || !contents || !contents.trim() ) {
@@ -70,7 +70,7 @@ router.post('/', (req, res) => {
             });
   
     }
- });
+});
  
 router.delete('/:id', (req, res) => {
     let deletedPost = {}
